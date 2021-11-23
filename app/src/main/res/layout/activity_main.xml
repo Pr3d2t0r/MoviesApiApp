@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_marginLeft="5dp"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/query"
+            android:backgroundTint="#ff0000"
+            android:hint="Search movie..."
+            />
+        <Button
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:backgroundTint="#FF0000"
+            android:textColor="@color/white"
+            android:text="Search"/>
+    </LinearLayout>
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Movies"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:textColor="#FF0000"
+        android:gravity="center_horizontal"
+        android:paddingVertical="20dp"
+        android:background="#4C4C4C"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:id="@+id/movies"/>
+</LinearLayout>
