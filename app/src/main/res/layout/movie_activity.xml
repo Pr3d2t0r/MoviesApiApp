@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/poster"
+        android:src="@drawable/defaultposter"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_gravity="center" />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
+        android:text="The Mechanic"
+        android:textColor="@color/black"
+        android:fontFamily="serif"
+        android:textSize="50sp" />
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
+        android:text="An elite hitman teaches his trade to an apprentice who has a connection to one of his previous victims."
+        android:textColor="@color/black"
+        android:fontFamily="serif"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="22sp" />
+
+</LinearLayout>
