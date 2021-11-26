@@ -1,20 +1,14 @@
 package com.programmingbros.androidapi.httpclients;
 
 import android.os.StrictMode;
-import android.util.JsonReader;
-import android.util.Log;
 
 import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.JsonValue;
 import com.programmingbros.androidapi.models.Movie;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -26,7 +20,7 @@ public class OMDBHttpClient {
     private static final String MOVIE_SEARCH_URL = BASE_URL + APPID_URL + TYPE + "&s=";
 
 
-    public List<Movie> queryMovie(String query) {
+    public String queryMovie(String query) {
         // json
 
         /*
@@ -77,16 +71,16 @@ public class OMDBHttpClient {
             is.close();
             con.disconnect();
 
-            JsonObject jsonObject = JsonObject.readFrom(buffer.toString());
+            /*JsonObject jsonObject = JsonObject.readFrom(buffer.toString());
 
             List<Movie> movies = new ArrayList<>();
             for (JsonValue item : jsonObject.get("Search").asArray()) {
                 JsonObject movieObject = item.asObject();
 
                 movies.add(new Movie(movieObject.get("Title").asString(), movieObject.get("Year").asString(), movieObject.get("imdbID").asString(), movieObject.get("Poster").asString()));
-            }
+            }*/
 
-            return movies;
+            return buffer.toString();
         }  catch (Throwable t) {
             t.printStackTrace();
         }
@@ -105,7 +99,7 @@ public class OMDBHttpClient {
         return null;
     }
 
-    public Movie getMovieDetails(String imdbID) {
+    public String getMovieDetails(String imdbID) {
         // json
         /*
             {
@@ -175,9 +169,11 @@ public class OMDBHttpClient {
             is.close();
             con.disconnect();
 
-            JsonObject jsonObject = JsonObject.readFrom(buffer.toString());
+            return buffer.toString();
 
-            return new Movie(jsonObject.get("Title").asString(), jsonObject.get("Plot").asString(), jsonObject.get("Year").asString(), imdbID, jsonObject.get("Poster").asString());
+            /*JsonObject jsonObject = JsonObject.readFrom(buffer.toString());
+
+            return new Movie(jsonObject.get("Title").asString(), jsonObject.get("Plot").asString(), jsonObject.get("Year").asString(), imdbID, jsonObject.get("Poster").asString());*/
         }  catch (Throwable t) {
             t.printStackTrace();
         }

@@ -3,6 +3,7 @@ package com.programmingbros.androidapi;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,16 +27,10 @@ public class MovieViewActivity extends AppCompatActivity {
 
         String imdbID = getIntent().getStringExtra("movie_imdbID");
 
-        OMDBHttpClient omdbHttpClient = new OMDBHttpClient();
-        Movie movie = omdbHttpClient.getMovieDetails(imdbID);
+        JsonTask jt = new JsonTask(this.image, this.title, this.plot);
+        jt.execute("details", imdbID);
 
-        Bitmap poster = movie.getPoster();
-        if (poster != null)
-            this.image.setImageBitmap(poster);
-        else
-            this.image.setImageResource(R.drawable.defaultposter);
-
-        this.title.setText(movie.title);
-        this.plot.setText(movie.plot);
+        /*OMDBHttpClient omdbHttpClient = new OMDBHttpClient();
+        Movie movie = omdbHttpClient.getMovieDetails(imdbID);*/
     }
 }

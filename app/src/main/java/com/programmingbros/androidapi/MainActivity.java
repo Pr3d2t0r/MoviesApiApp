@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.programmingbros.androidapi.adapter.MoviesAdapter;
 import com.programmingbros.androidapi.httpclients.OMDBHttpClient;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText queryView;
     private Button button;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (query.isEmpty())
             return;
 
-        OMDBHttpClient omdbHttpClient = new OMDBHttpClient();
-        this.recyclerView.setAdapter(new MoviesAdapter(omdbHttpClient.queryMovie(query)));
+        JsonTask jt = new JsonTask(this.progressBar, this.recyclerView);
+        jt.execute("query", query);
     }
 }
