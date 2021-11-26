@@ -2,6 +2,7 @@ package com.programmingbros.androidapi.httpclients;
 
 import android.os.StrictMode;
 import android.util.JsonReader;
+import android.util.Log;
 
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
@@ -20,6 +21,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class OMDBHttpClient {
     private static final String BASE_URL = "https://www.omdbapi.com/?";
     private static final String APPID_URL = "apikey=56049e69";
+    private static final String MOVIE_INFO_URL = BASE_URL + APPID_URL + "&type=movie&i=";
 
     public List<Movie> queryMovie(String query) {
         HttpsURLConnection con = null;
@@ -57,6 +59,53 @@ public class OMDBHttpClient {
             }
 
             return movies;
+        }  catch (Throwable t) {
+            t.printStackTrace();
+        }
+        finally {
+            try {
+                is.close();
+            } catch (Throwable t) {
+            }
+
+            try {
+                con.disconnect();
+            } catch (Throwable t) {
+            }
+        }
+
+        return null;
+    }
+
+    public Movie getMovieDetails(String imdbID) {
+        HttpsURLConnection con = null;
+        InputStream is = null;
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        try {
+            con = (HttpsURLConnection) (new URL(MOVIE_INFO_URL + imdbID)).openConnection();
+            con.setRequestMethod("GET");
+            con.setDoInput(true);
+            con.connect();
+
+            StringBuffer buffer = new StringBuffer();
+            is = con.getInputStream();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            String line = null;
+
+            while((line = br.readLine()) != null)
+                buffer.append(line + "\r\n");
+
+            is.close();
+            con.disconnect();
+
+            JsonObject jsonObject = JsonObject.readFrom(buffer.toString());
+
+            return new Movie(jsonObject.get("Title").asString(), jsonObject.get("Plot").asString(), jsonObject.get("Year").asString(), imdbID, jsonObject.get("Poster").asString());
         }  catch (Throwable t) {
             t.printStackTrace();
         }

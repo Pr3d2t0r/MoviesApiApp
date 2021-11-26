@@ -5,19 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.eclipsesource.json.JsonObject;
 import com.programmingbros.androidapi.adapter.MoviesAdapter;
 import com.programmingbros.androidapi.httpclients.OMDBHttpClient;
-import com.programmingbros.androidapi.models.Movie;
-
-import org.json.JSONObject;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText queryView;

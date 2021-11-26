@@ -1,6 +1,7 @@
 package com.programmingbros.androidapi.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.programmingbros.androidapi.MovieViewActivity;
 import com.programmingbros.androidapi.R;
 import com.programmingbros.androidapi.models.Movie;
 
-import java.io.IOException;
 import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
@@ -61,6 +62,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         public MoviesViewHolder(View itemView, Context ctx) {
             super(itemView);
 
+            itemView.setOnClickListener(this);
             this.context = ctx;
             this.imageView = (ImageView) itemView.findViewById(R.id.movie_img);
             this.titleView = (TextView) itemView.findViewById(R.id.titulo);
@@ -69,6 +71,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
         @Override
         public void onClick(View v) {
+            Intent intent = new Intent(this.context, MovieViewActivity.class);
+            intent.putExtra("movie_imdbID", this.movie.getImdbId());
+
+            this.context.startActivity(intent);
         }
     }
 }
