@@ -21,10 +21,12 @@ import javax.net.ssl.HttpsURLConnection;
 public class OMDBHttpClient {
     private static final String BASE_URL = "https://www.omdbapi.com/?";
     private static final String APPID_URL = "apikey=56049e69";
-    private static final String MOVIE_INFO_URL = BASE_URL + APPID_URL + "&type=movie&i=";
+    public static final String TYPE = "&type=movie";
+    private static final String MOVIE_INFO_URL = BASE_URL + APPID_URL + TYPE + "&i=";
+    private static final String MOVIE_SEARCH_URL = BASE_URL + APPID_URL + TYPE + "&s=";
+
 
     public List<Movie> queryMovie(String query) {
-
         // json
 
         /*
@@ -49,6 +51,7 @@ public class OMDBHttpClient {
               "Response": "True"
             }
         */
+
         HttpsURLConnection con = null;
         InputStream is = null;
 
@@ -56,7 +59,7 @@ public class OMDBHttpClient {
         StrictMode.setThreadPolicy(policy);
 
         try {
-            con = (HttpsURLConnection) (new URL(BASE_URL + APPID_URL + "&type=movie&s=" + query)).openConnection();
+            con = (HttpsURLConnection) (new URL(MOVIE_SEARCH_URL + query)).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
             con.connect();

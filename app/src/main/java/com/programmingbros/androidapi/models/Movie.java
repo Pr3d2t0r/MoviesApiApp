@@ -14,16 +14,13 @@ public class Movie {
     private String imdbId;
     private String posterUrl;
 
-    public Movie(String title, String year, String imdbId, String posterUrl) {
-        this.title = title;
-        this.year = year;
-        this.imdbId = imdbId;
-        this.posterUrl = posterUrl != null && !posterUrl.isEmpty() ? posterUrl : DEFAULT_IMG;
+    public Movie(String title, String plot, String year, String imdbId, String posterUrl) {
+        this(title, year, imdbId, posterUrl);
+        this.plot = plot;
     }
 
-    public Movie(String title, String plot, String year, String imdbId, String posterUrl) {
+    public Movie(String title, String year, String imdbId, String posterUrl) {
         this.title = title;
-        this.plot = plot;
         this.year = year;
         this.imdbId = imdbId;
         this.posterUrl = posterUrl != null && !posterUrl.isEmpty() ? posterUrl : DEFAULT_IMG;
@@ -33,14 +30,9 @@ public class Movie {
         return imdbId;
     }
 
-    public void setImdbId(String imdbId) {
-        this.imdbId = imdbId;
-    }
-
     public Bitmap getPoster() {
         try {
-            URL newurl = new URL(this.posterUrl);
-            return BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+            return BitmapFactory.decodeStream(new URL(this.posterUrl).openConnection().getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
