@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         this.recyclerView = (RecyclerView) findViewById(R.id.movies);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        this.recyclerView.setAdapter(null);
     }
 
     @Override
