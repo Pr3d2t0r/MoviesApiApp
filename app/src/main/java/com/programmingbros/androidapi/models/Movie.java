@@ -2,6 +2,7 @@ package com.programmingbros.androidapi.models;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,7 +13,7 @@ public class Movie {
     public String plot;
     public String year;
     private String imdbId;
-    private String posterUrl;
+    private Bitmap poster;
 
     public Movie(String title, String plot, String year, String imdbId, String posterUrl) {
         this(title, year, imdbId, posterUrl);
@@ -23,20 +24,24 @@ public class Movie {
         this.title = title;
         this.year = year;
         this.imdbId = imdbId;
-        this.posterUrl = posterUrl != null && !posterUrl.isEmpty() ? posterUrl : DEFAULT_IMG;
+        this.poster = this.setPoster(posterUrl != null && !posterUrl.isEmpty() ? posterUrl : DEFAULT_IMG);
     }
 
     public String getImdbId() {
         return imdbId;
     }
 
-    public Bitmap getPoster() {
+    private Bitmap setPoster(String posterUrl) {
         try {
-            return BitmapFactory.decodeStream(new URL(this.posterUrl).openConnection().getInputStream());
+            return BitmapFactory.decodeStream(new URL(posterUrl).openConnection().getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    public Bitmap getPoster() {
+        return this.poster;
     }
 }

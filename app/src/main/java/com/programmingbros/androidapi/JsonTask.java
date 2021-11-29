@@ -2,6 +2,7 @@ package com.programmingbros.androidapi;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -31,7 +32,7 @@ public class JsonTask extends AsyncTask<String, Integer, Object> {
 
     @Override
     protected Object doInBackground(String... args) {
-        String content;
+        String content = "";
         try {
             this.type = args[0];
         }catch (IndexOutOfBoundsException e){
@@ -50,8 +51,11 @@ public class JsonTask extends AsyncTask<String, Integer, Object> {
             String data = httpClient.queryMovie(content);
             JsonObject jsonObject = JsonObject.readFrom(data);
 
+            short i = 0;
             List<Movie> movies = new ArrayList<>();
             for (JsonValue item : jsonObject.get("Search").asArray()) {
+                publishProgress((++i * 100) / jsonObject.get("Search").asArray().size());
+
                 JsonObject movieObject = item.asObject();
 
                 movies.add(new Movie(movieObject.get("Title").asString(),
@@ -60,10 +64,16 @@ public class JsonTask extends AsyncTask<String, Integer, Object> {
                                         movieObject.get("Poster").asString()));
             }
             return movies;
-        }else if (this.type.equals("details")){
+        } else if (this.type.equals("details")) {
             String data = httpClient.getMovieDetails(content);
             JsonObject jsonObject = JsonObject.readFrom(data);
-            return new Movie(jsonObject.get("Title").asString(), jsonObject.get("Plot").asString(), jsonObject.get("Year").asString(), content, jsonObject.get("Poster").asString());
+
+            publishProgress(25);
+
+            Movie movie = new Movie(jsonObject.get("Title").asString(), jsonObject.get("Plot").asString(), jsonObject.get("Year").asString(), content, jsonObject.get("Poster").asString());
+
+            publishProgress(100);
+            return movie;
         }
         return null;
     }
@@ -73,7 +83,7 @@ public class JsonTask extends AsyncTask<String, Integer, Object> {
         super.onPostExecute(obj);
         if (this.type.equals("query")){
             ((RecyclerView)this.views[1]).setAdapter(new MoviesAdapter((ArrayList<Movie>) obj));
-        }else if (this.type.equals("details")){
+        } else if (this.type.equals("details")){
             Movie movie = (Movie) obj;
             Bitmap poster = movie.getPoster();
             if (poster != null)
@@ -89,6 +99,16 @@ public class JsonTask extends AsyncTask<String, Integer, Object> {
     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
-        ((ProgressBar) this.views[0]).setProgress(values[0]);
+        ProgressBar pb = (ProgressBar) this.views[0];
+
+        if (pb.getVisibility() != View.VISIBLE)
+            pb.setVisibility(View.VISIBLE);
+
+        int progress = values[0];
+
+        pb.setProgress(progress);
+
+        if (progress == 100)
+            pb.setVisibility(View.INVISIBLE);
     }
 }

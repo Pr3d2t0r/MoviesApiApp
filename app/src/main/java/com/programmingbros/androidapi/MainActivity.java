@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         this.recyclerView = (RecyclerView) findViewById(R.id.movies);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        this.progressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
     @Override
